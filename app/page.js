@@ -7,6 +7,7 @@ import CitiesStep from './components/CitiesStep'
 import InterestStep from './components/InterestStep'
 import ResultsStep from './components/ResultStep'
 import LandingPage from './components/LandingPage'
+import { useSession, signIn, signOut } from 'next-auth/react'
 
 export default function Home() {
   const [startingPoint, setStartingPoint] = useState("")
@@ -16,16 +17,25 @@ export default function Home() {
   const [startCoords, setStartCoords] = useState(null)
   const [radius, setRadius] = useState(5)
 
+  const { data: session } = useSession()
+
   return (
     <>
       <div className={styles.wrapper}>
         {/* Navbar */}
         <nav className={styles.navbar}>
-          <span className={styles.logo} style={{cursor: 'pointer'}} onClick={() => setStep(0)}>Travel Planner</span>
-          <div className={styles.navLinks}>
-            <a className={styles.navLink} href="#">Accedi</a>
-          </div>
-        </nav>
+  <span className={styles.logo} style={{cursor: 'pointer'}} onClick={() => setStep(0)}>Travel Planner</span>
+  <div className={styles.navLinks}>
+    {session ? (
+      <>
+        <span className={styles.navLink}>Ciao, {session.user.name.split(' ')[0]}! 👋</span>
+        <a className={styles.navLink} href="#" onClick={() => signOut()}>Esci</a>
+      </>
+    ) : (
+      <a className={styles.navLink} href="#" onClick={() => signIn('google')}>Accedi</a>
+    )}
+  </div>
+</nav>
 
         {/* Contenuto */}
         <div className={styles.content}>
