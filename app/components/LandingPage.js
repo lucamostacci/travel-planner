@@ -17,7 +17,7 @@ export default function LandingPage({ onStart }) {
 
   return (
     <div className={styles.container}>
-      
+
       {/* Hero */}
       <div className={styles.hero}>
         <div className={styles.heroText}>
@@ -66,30 +66,30 @@ export default function LandingPage({ onStart }) {
         <div className={styles.carousel}>
           <button className={styles.carouselBtn} onClick={prev}>‹</button>
           <div className={styles.carouselTrack}>
-  {DESTINATIONS.map((d, i) => {
-    const total = DESTINATIONS.length
-    let offset = (i - current + total) % total
-    if (offset > 2) offset -= total
-    const visible = offset >= 0 && offset <= 2
-    return (
-      <div
-        key={d.name}
-        className={styles.destCard}
-        onClick={onStart}
-        style={{
-          transform: `translateX(${offset * 105}%)`,
-          opacity: visible ? 1 : 0,
-          pointerEvents: visible ? 'auto' : 'none'
-        }}
-      >
-        <img src={d.img} alt={d.name} />
-        <span style={{textShadow: '0 2px 8px rgba(0,0,0,0.8)'}}>
-          {d.name}
-        </span>
-      </div>
-    )
-  })}
-</div>
+            {DESTINATIONS.map((d, i) => {
+              const total = DESTINATIONS.length
+              let offset = (i - current + total) % total
+              if (offset > 2) offset -= total
+              const visible = offset >= 0 && offset <= 2
+              return (
+                <div
+                  key={d.name}
+                  className={styles.destCard}
+                  onClick={onStart}
+                  style={{
+                    transform: `translateX(${offset * 105}%)`,
+                    opacity: visible ? 1 : 0,
+                    pointerEvents: visible ? 'auto' : 'none'
+                  }}
+                >
+                  <img src={d.img} alt={d.name} />
+                  <span style={{textShadow: '0 2px 8px rgba(0,0,0,0.8)'}}>
+                    {d.name}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
           <button className={styles.carouselBtn} onClick={next}>›</button>
         </div>
         <div className={styles.dots}>
