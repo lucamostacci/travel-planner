@@ -63,14 +63,13 @@ export default function Home() {
         <div className={styles.footerLinks}>
           <strong>Menu</strong>
           <a href="#">Home</a>
-          <a href="#">Come funziona</a>
           <a href="#">Privacy</a>
         </div>
         <div className={styles.footerLinks}>
           <strong>Contatti</strong>
-          <a href="#">Email</a>
-          <a href="#">GitHub</a>
-          <a href="#">LinkedIn</a>
+          <a href="#" onClick={() => window.open('mailto:luca.mostacci@gmail.com')}>Email</a>
+          <a href="https://github.com/lucamostacci/travel-planner" target="_blank">GitHub</a>
+          <a href="https://www.linkedin.com/in/luca-mostacci/" target="_blank">LinkedIn</a>
         </div>
       </footer>
     </>
