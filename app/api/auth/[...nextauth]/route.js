@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import { prisma } from "@/lib/prisma"
 
 const handler = NextAuth({
   providers: [
@@ -9,8 +10,30 @@ const handler = NextAuth({
     })
   ],
   callbacks: {
+    async signIn({ user }) {
+      try {
+        await prisma.user.upsert({
+          where: { email: user.email },
+          update: { name: user.name, image: user.image },
+          create: {
+            email: user.email,
+            name: user.name,
+            image: user.image,
+          }
+        })
+        return true
+      } catch (error) {
+        console.error("Errore salvataggio utente:", error)
+        return true
+      }
+    },
     async session({ session, token }) {
-      session.user.id = token.sub
+      if (session.user) {
+        const dbUser = await prisma.user.findUnique({
+          where: { email: session.user.email }
+        })
+        if (dbUser) session.user.id = dbUser.id
+      }
       return session
     }
   }

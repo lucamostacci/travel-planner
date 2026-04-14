@@ -11,6 +11,9 @@ export default function ResultsStep({
 }) {
   const [loading, setLoading] = useState(true);
   const [places, setPlaces] = useState([]);
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState("");
 
   const optimizeRoute = (places, startCoords) => {
     let remaining = [...places];
@@ -39,6 +42,44 @@ export default function ResultsStep({
     return ordered;
   };
 
+  const saveTrip = async () => {
+    setSaving(true);
+    setSaveError("");
+    try {
+      const response = await fetch("/api/trips", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: `${cities.join(", ")} — ${new Date().toLocaleDateString("it-IT")}`,
+          startingPoint,
+          cities,
+          interests,
+          places,
+        }),
+      });
+      const data = await response.json();
+      if (data.error) {
+        setSaveError(data.error);
+      } else {
+        setSaved(true);
+      }
+    } catch (e) {
+      setSaveError("Errore durante il salvataggio");
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const buildRouteUrl = () => {
+    const origin = `${startCoords.lat},${startCoords.lon}`;
+    const destination = `${places[places.length - 1].lat},${places[places.length - 1].lon}`;
+    const waypoints = places
+      .slice(0, -1)
+      .map((p) => `${p.lat},${p.lon}`)
+      .join("|");
+    return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&waypoints=${encodeURIComponent(waypoints)}&travelmode=walking`;
+  };
+
   useEffect(() => {
     const fetchResults = async () => {
       const response = await fetch("/api/generate", {
@@ -53,16 +94,6 @@ export default function ResultsStep({
     };
     fetchResults();
   }, []);
-
-const buildRouteUrl = () => {
-  const origin = `${startCoords.lat},${startCoords.lon}`
-  const destination = `${places[places.length - 1].lat},${places[places.length - 1].lon}`
-  const waypoints = places
-    .slice(0, -1)
-    .map((p) => `${p.lat},${p.lon}`)
-    .join("|")
-  return `https://www.google.com/maps/dir/?api=1&origin=${origin}&destination=${destination}&waypoints=${encodeURIComponent(waypoints)}&travelmode=walking`
-}
 
   return (
     <div className={styles.container}>
@@ -105,8 +136,24 @@ const buildRouteUrl = () => {
               </div>
             ))}
           </div>
+
+          {saveError && (
+            <p style={{color: 'red', fontSize: '0.9rem'}}>{saveError}</p>
+          )}
+
           <div className={styles.bottomNav}>
             <button className={styles.backButton} onClick={onBack}>← Modifica</button>
+            {saved ? (
+              <span style={{color: 'var(--primary)', fontWeight: 600}}>✓ Itinerario salvato!</span>
+            ) : (
+<button
+  className={styles.saveButton}
+  onClick={saveTrip}
+  disabled={saving}
+>
+  {saving ? "Salvataggio..." : "Salva itinerario"}
+</button>
+            )}
             <a className={styles.routeButton} href={buildRouteUrl()} target="_blank">
               🧭 Apri percorso in Google Maps
             </a>

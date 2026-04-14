@@ -163,8 +163,11 @@
   transition: all 0.2s;
 }
 
+
 .backButton:hover {
-  background: var(--bg);
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
 
 .loadingContainer {
@@ -205,4 +208,27 @@
   display: flex;
   gap: 1rem;
   padding-top: 1rem;
+}
+
+.saveButton {
+  padding: 0.9rem 2rem;
+  background: var(--white);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  border-radius: var(--radius);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.saveButton:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.saveButton:disabled {
+  border-color: var(--border);
+  color: var(--text-muted);
+  cursor: not-allowed;
 }
