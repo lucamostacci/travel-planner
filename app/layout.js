@@ -1,6 +1,8 @@
 import { Playfair_Display, DM_Sans } from 'next/font/google'
 import './globals.css'
 import SessionWrapper from './components/SessionWrapper'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -22,7 +24,9 @@ export default function RootLayout({ children }) {
     <html lang="it" className={`${playfair.variable} ${dmSans.variable}`}>
       <body>
         <SessionWrapper>
+          <Navbar />
           {children}
+          <Footer />
         </SessionWrapper>
       </body>
     </html>

@@ -22,20 +22,7 @@ export default function Home() {
   return (
     <>
       <div className={styles.wrapper}>
-        {/* Navbar */}
-        <nav className={styles.navbar}>
-  <span className={styles.logo} style={{cursor: 'pointer'}} onClick={() => setStep(0)}>Travel Planner</span>
-  <div className={styles.navLinks}>
-    {session ? (
-      <>
-        <span className={styles.navLink}>Ciao, {session.user.name.split(' ')[0]}! 👋</span>
-        <a className={styles.navLink} href="#" onClick={() => signOut()}>Esci</a>
-      </>
-    ) : (
-      <a className={styles.navLink} href="#" onClick={() => signIn('google')}>Accedi</a>
-    )}
-  </div>
-</nav>
+
 
         {/* Contenuto */}
         <div className={styles.content}>
@@ -54,24 +41,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className={styles.footer}>
-        <div className={styles.footerLeft}>
-          <span className={styles.footerLogo}>Travel Planner</span>
-          <p className={styles.footerSub}>Itinerari personalizzati con AI</p>
-        </div>
-        <div className={styles.footerLinks}>
-          <strong>Menu</strong>
-          <a href="#">Home</a>
-          <a href="#">Privacy</a>
-        </div>
-        <div className={styles.footerLinks}>
-          <strong>Contatti</strong>
-          <a href="#" onClick={() => window.open('mailto:luca.mostacci@gmail.com')}>Email</a>
-          <a href="https://github.com/lucamostacci/travel-planner" target="_blank">GitHub</a>
-          <a href="https://www.linkedin.com/in/luca-mostacci/" target="_blank">LinkedIn</a>
-        </div>
-      </footer>
+      
     </>
   )
 }
