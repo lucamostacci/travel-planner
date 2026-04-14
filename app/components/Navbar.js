@@ -10,9 +10,9 @@ export default function Navbar() {
 
   return (
     <nav className={styles.navbar}>
-      <span className={styles.logo} onClick={() => router.push('/')}>
-        Travel Planner
-      </span>
+<a className={styles.logo} href="/">
+  Travel Planner
+</a>
       <div className={styles.navLinks}>
         {session ? (
           <>

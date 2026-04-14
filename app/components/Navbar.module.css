@@ -16,6 +16,7 @@
   font-weight: 700;
   color: var(--primary);
   cursor: pointer;
+  text-decoration: none;
 }
 
 .navLinks {
